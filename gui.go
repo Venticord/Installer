@@ -67,7 +67,7 @@ func main() {
 		g.Update()
 	}()
 
-	win = g.NewMasterWindow("Vencord Installer", 1200, 800, 0)
+	win = g.NewMasterWindow("Venticord Installer", 1200, 800, 0)
 
 	icon, _, err := image.Decode(bytes.NewReader(iconBytes))
 	if err != nil {
@@ -113,7 +113,7 @@ func InstallLatestBuilds() (err error) {
 
 	err = installLatestBuilds()
 	if err != nil {
-		ShowModal("Uh Oh!", "Failed to install the latest Vencord builds from GitHub:\n"+err.Error())
+		ShowModal("Uh Oh!", "Failed to install the latest Venticord builds from GitHub:\n"+err.Error())
 	}
 	return
 }
@@ -376,8 +376,9 @@ func renderInstaller() g.Widget {
 		g.Style().SetFontSize(20).To(
 			renderErrorCard(
 				DiscordYellow,
-				"**Github** and **vencord.dev** are the only official places to get Vencord. Any other site claiming to be us is malicious.\n"+
-					"If you downloaded from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.",
+				"This is not where to get Vencord **Github** and **vencord.dev** are the only official places to get Vencord. Any other site claiming to be them is malicious.\n"+
+					"If you downloaded from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.\n",
+				"You will not need to do that for this installer, because this is also open source!"
 				90,
 			),
 		),
