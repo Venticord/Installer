@@ -4,8 +4,6 @@
 name: Release
 on:
   push:
-    tags:
-      - v*
 
 env:
   FORCE_COLOR: true
