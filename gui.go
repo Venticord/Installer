@@ -378,7 +378,7 @@ func renderInstaller() g.Widget {
 				DiscordYellow,
 				"This is not where to get Vencord. **Github** and **vencord.dev** are the only official places to get Vencord. Any other site claiming to be them is malicious.\n"+
 					"If you downloaded Vencord **OR** Venticord from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.\n"+
-				"You will not need to do that for this installer, because this is also open source! You can even check this on VirusTotal!"
+				"You will not need to do that for this installer, because this is also open source! You can even check this on VirusTotal!",
 				90,
 			),
 		),
