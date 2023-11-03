@@ -376,9 +376,9 @@ func renderInstaller() g.Widget {
 		g.Style().SetFontSize(20).To(
 			renderErrorCard(
 				DiscordYellow,
-				"This is not where to get Vencord **Github** and **vencord.dev** are the only official places to get Vencord. Any other site claiming to be them is malicious.\n"+
-					"If you downloaded from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.\n",
-				"You will not need to do that for this installer, because this is also open source!"
+				"This is not where to get Vencord. **Github** and **vencord.dev** are the only official places to get Vencord. Any other site claiming to be them is malicious.\n"+
+					"If you downloaded Vencord **OR** Venticord from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.\n"+
+				"You will not need to do that for this installer, because this is also open source! You can even check this on VirusTotal!"
 				90,
 			),
 		),
@@ -390,7 +390,7 @@ func renderInstaller() g.Widget {
 		),
 
 		&CondWidget{len(discords) == 0, func() g.Widget {
-			return g.Label("No Discord installs found. You first need to install Discord.")
+			return g.Label("No Discord installs found? Where are they?")
 		}, nil},
 
 		g.Style().SetFontSize(20).To(
@@ -399,7 +399,7 @@ func renderInstaller() g.Widget {
 				//goland:noinspection GoDeprecation
 				text := strings.Title(d.branch) + " - " + d.path
 				if d.isPatched {
-					text += " [PATCHED]"
+					text += " [INSTALLED]"
 				}
 				return g.RadioButton(text, radioIdx == i).
 					OnChange(makeRadioOnChange(i))
@@ -464,7 +464,7 @@ func renderInstaller() g.Widget {
 					SetColor(g.StyleColorButton, DiscordGreen).
 					SetDisabled(GithubError != nil).
 					To(
-						g.Button("Install").
+						g.Button("Patch with Venticord!").
 							OnClick(handlePatch).
 							Size((w-40)/4, 50),
 						Tooltip("Patch the selected Discord Install"),
@@ -473,7 +473,7 @@ func renderInstaller() g.Widget {
 					SetColor(g.StyleColorButton, DiscordBlue).
 					SetDisabled(GithubError != nil).
 					To(
-						g.Button("Reinstall / Repair").
+						g.Button("Repatch (Repair)").
 							OnClick(func() {
 								if IsDevInstall {
 									handlePatch()
@@ -485,12 +485,12 @@ func renderInstaller() g.Widget {
 								}
 							}).
 							Size((w-40)/4, 50),
-						Tooltip("Reinstall & Update Vencord"),
+						Tooltip("Repatch (Update)"),
 					),
 				g.Style().
 					SetColor(g.StyleColorButton, DiscordRed).
 					To(
-						g.Button("Uninstall").
+						g.Button("Vanilla-fy (Uninstall)").
 							OnClick(handleUnpatch).
 							Size((w-40)/4, 50),
 						Tooltip("Unpatch the selected Discord Install"),
@@ -506,17 +506,17 @@ func renderInstaller() g.Widget {
 			),
 		),
 
-		InfoModal("#patched", "Successfully Patched", "If Discord is still open, fully close it first.\n"+
-			"Then, start it and verify Vencord installed successfully by looking for its category in Discord Settings"),
-		InfoModal("#unpatched", "Successfully Unpatched", "If Discord is still open, fully close it first. Then start it again, it should be back to stock!"),
-		InfoModal("#scuffed-install", "Hold On!", "You have a broken Discord Install.\n"+
-			"Sometimes Discord decides to install to the wrong location for some reason!\n"+
-			"You need to fix this before patching, otherwise Vencord will likely not work.\n\n"+
+		InfoModal("#patched", "You're on Venticord!", "Close Discord if it's open..\n"+
+			"Then, start it and verify Venticord installed successfully by looking for its category in Discord Settings!"),
+		InfoModal("#unpatched", "Goodbye!", "It's very sad to see you go. What happened?"),
+		InfoModal("#scuffed-install", "Biscorb??", "You're in possession of a broken Discord install.\n"+
+			"Sometimes Discord decides to install to the wrong place for **[UNSPECIFIED]** reason!\n"+
+			"You need to fix this before patching, otherwise Venticord will not work!\n\n"+
 			"Use the below button to jump there and delete any folder called Discord or Squirrel.\n"+
 			"If the folder is now empty, feel free to go back a step and delete that folder too.\n"+
 			"Then see if Discord still starts. If not, reinstall it"),
 		RawInfoModal("#openasar-confirm", "OpenAsar", "OpenAsar is an open-source alternative of Discord desktop's app.asar.\n"+
-			"Vencord is in no way affiliated with OpenAsar.\n"+
+			"Vencord and Venticord are **in no way** affiliated with OpenAsar.\n"+
 			"You're installing OpenAsar at your own risk. If you run into issues with OpenAsar,\n"+
 			"no support will be provided, join the OpenAsar Server instead!\n\n"+
 			"To install OpenAsar, press Accept and click 'Install OpenAsar' again.", true),
@@ -567,14 +567,14 @@ func loop() {
 		Layout(
 			g.Align(g.AlignCenter).To(
 				g.Style().SetFontSize(40).To(
-					g.Label("Vencord Installer"),
+					g.Label("Venticord Installer"),
 				),
 			),
 
 			g.Dummy(0, 20),
 			g.Style().SetFontSize(20).To(
 				g.Row(
-					g.Label(Ternary(IsDevInstall, "Dev Install: ", "Files will be downloaded to: ")+FilesDir),
+					g.Label(Ternary(IsDevInstall, "VentiDev: ", "Files will be downloaded to: ")+FilesDir),
 					g.Style().
 						SetColor(g.StyleColorButton, DiscordBlue).
 						SetStyle(g.StyleVarFramePadding, 4, 4).
@@ -589,14 +589,14 @@ func loop() {
 				}, nil},
 				g.Dummy(0, 10),
 				g.Label("Installer Version: "+InstallerTag+" ("+InstallerGitHash+")"+Ternary(IsInstallerOutdated, " - OUTDATED", "")),
-				g.Label("Local Vencord Version: "+InstalledHash),
+				g.Label("Local Ven(ti)cord Version: "+InstalledHash),
 				&CondWidget{
 					GithubError == nil,
 					func() g.Widget {
 						if IsDevInstall {
-							return g.Label("Not updating Vencord due to being in DevMode")
+							return g.Label("Not updating Venticord due to being in Ventidev Installer")
 						}
-						return g.Label("Latest Vencord Version: " + LatestHash)
+						return g.Label("Latest Venticord Version: " + LatestHash)
 					}, func() g.Widget {
 						return renderErrorCard(DiscordRed, "Failed to fetch Info from GitHub: "+GithubError.Error(), 40)
 					},

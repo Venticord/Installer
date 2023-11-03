@@ -34,9 +34,9 @@ func main() {
 	InitGithubDownloader()
 	discords = FindDiscords()
 
-	var installFlag = flag.Bool("install", false, "Install Vencord on a Discord install")
-	var updateFlag = flag.Bool("reinstall", false, "Reinstall & update Vencord")
-	var uninstallFlag = flag.Bool("uninstall", false, "Uninstall Vencord from a Discord install")
+	var installFlag = flag.Bool("install", false, "Install Venticord on a Discord install")
+	var updateFlag = flag.Bool("reinstall", false, "Reinstall & update Venticord")
+	var uninstallFlag = flag.Bool("uninstall", false, "Uninstall Venticord from a Discord install")
 	var installOpenAsar = flag.Bool("install-openasar", false, "Install OpenAsar on a Discord install")
 	var uninstallOpenAsar = flag.Bool("uninstall-openasar", false, "Uninstall OpenAsar from a Discord install")
 	var locationFlag = flag.String("location", "", "Select the location of your Discord install")
@@ -57,7 +57,7 @@ func main() {
 		}
 	}
 
-	fmt.Println("Vencord Installer cli", InstallerTag, "("+InstallerGitHash+")")
+	fmt.Println("Venticord Installer CLI", InstallerTag, "("+InstallerGitHash+")")
 
 	var err error
 	if *installFlag {

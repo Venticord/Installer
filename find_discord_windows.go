@@ -70,7 +70,7 @@ func FindDiscords() []any {
 
 	appData := os.Getenv("LOCALAPPDATA")
 	if appData == "" {
-		fmt.Println("%LOCALAPPDATA% is empty???????")
+		fmt.Println("%LOCALAPPDATA% is empty??????? put a thing there god damn!!!!!")
 		return discords
 	}
 
@@ -86,7 +86,7 @@ func FindDiscords() []any {
 
 func PreparePatch(di *DiscordInstall) {
 	name := windowsNames[di.branch]
-	fmt.Println("Killing " + name + "...")
+	fmt.Println("Stabbing " + name + "...")
 
 	_ = exec.Command("powershell", "Stop-Process -Name "+name).Run()
 }

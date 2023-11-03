@@ -74,7 +74,7 @@ func IsSafeToDelete(path string) error {
 	for _, file := range files {
 		name := file.Name()
 		if name != "package.json" && name != "index.js" {
-			return errors.New("Found file '" + name + "' which doesn't belong to Vencord.")
+			return errors.New("Found file '" + name + "' which doesn't belong to Vencord, or Venticord. WHAT IS THIS????")
 		}
 	}
 	return nil
@@ -107,7 +107,7 @@ func patchRenames(dir string, isSystemElectron bool) (err error) {
 			fmt.Println("Failed to patch. Undoing partial patch")
 			for _, rename := range renamesDone {
 				if innerErr := os.Rename(rename[1], rename[0]); innerErr != nil {
-					fmt.Println("Failed to undo partial patch. This install is probably bricked.", innerErr)
+					fmt.Println("Failed to undo partial patch... that's not good. This install is probably bricked.", innerErr)
 				} else {
 					fmt.Println("Successfully undid all changes")
 				}

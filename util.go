@@ -72,7 +72,7 @@ func CheckIfErrIsCauseItsBusyRn(err error) error {
 	if linkError, ok := err.(*os.LinkError); ok {
 		if errno, ok := linkError.Err.(syscall.Errno); ok && errno == 32 /* ERROR_SHARING_VIOLATION */ {
 			return errors.New(
-				"Cannot patch because Discord's files are used by a different process." +
+				"Cannot patch because Discord's files are used by a different process!" +
 					"\nMake sure you close Discord before trying to patch!",
 			)
 		}
