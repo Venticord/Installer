@@ -6,6 +6,11 @@ on:
   push:
     tags:
       v*
+permissions:
+  contents: write
+  deployments: write
+  packages: write
+
 
 env:
   FORCE_COLOR: true
