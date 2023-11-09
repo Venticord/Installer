@@ -113,7 +113,7 @@ func InstallLatestBuilds() (err error) {
 
 	err = installLatestBuilds()
 	if err != nil {
-		ShowModal("Uh Oh!", "Failed to install the latest Venticord builds from GitHub:\n"+err.Error())
+		ShowModal("WHERE THE HELL IS VENTICORD???", "Failed to install the latest Venticord builds from GitHub:\n"+err.Error())
 	}
 	return
 }
@@ -166,13 +166,13 @@ func handleErr(di *DiscordInstall, err error, action string) {
 	if errors.Is(err, os.ErrPermission) {
 		switch runtime.GOOS {
 		case "windows":
-			err = errors.New("Permission denied. Make sure your Discord is fully closed (from the tray)!")
+			err = errors.New("Disallowed action? Make sure you're not running Discord. Fully close it by running \"taskkill /f /im discord.exe\" in CMD prompt.")
 		case "darwin":
 			// FIXME: This text is not selectable which is a bit mehhh
 			command := "sudo chown -R \"${USER}:wheel\" " + di.path
-			err = errors.New("Permission denied. Please grant the installer Full Disk Access in the system settings (privacy & security page).\n\nIf that also doesn't work, try running the following command in your terminal:\n" + command)
+			err = errors.New("MacOS gone wrong\nMaybe try this in Terminal:\n" + command)
 		default:
-			err = errors.New("Permission denied. Maybe try running me as Administrator/Root?")
+			err = errors.New("got perm error can't find specific os or you're on linux (ew). run me as admin (root for you linux nerds)")
 		}
 	}
 
@@ -274,7 +274,7 @@ func renderFilesDirErr() g.Widget {
 			To(
 				g.Align(g.AlignCenter).To(
 					g.Label("Error: Failed to create: "+FilesDirErr.Error()),
-					g.Label("Resolve this error, then restart me!"),
+					g.Label("we won't tell you how to fix this, so just do it, then restart this app/pc!"),
 				),
 			),
 	}
@@ -377,8 +377,7 @@ func renderInstaller() g.Widget {
 			renderErrorCard(
 				DiscordYellow,
 				"This is not where to get Vencord. **Github** and **vencord.dev** are the only official places to get Vencord. Any other site claiming to be them is malicious.\n"+
-					"If you downloaded Vencord **OR** Venticord from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.\n"+
-				"You will not need to do that for this installer, because this is also open source! You can even check this on VirusTotal!",
+					"If you downloaded Vencord **OR** Venticord from any other source, you should delete / uninstall everything immediately, run a malware scan and change your Discord password.\n",
 				90,
 			),
 		),
@@ -386,7 +385,7 @@ func renderInstaller() g.Widget {
 		g.Dummy(0, 5),
 
 		g.Style().SetFontSize(30).To(
-			g.Label("Please select an install to patch"),
+			g.Label("Select the install you want to launch into the Venticord world"),
 		),
 
 		&CondWidget{len(discords) == 0, func() g.Widget {
@@ -397,9 +396,9 @@ func renderInstaller() g.Widget {
 			g.RangeBuilder("Discords", discords, func(i int, v any) g.Widget {
 				d := v.(*DiscordInstall)
 				//goland:noinspection GoDeprecation
-				text := strings.Title(d.branch) + " - " + d.path
+				text := strings.Title(d.branch) + " | Path: " + d.path
 				if d.isPatched {
-					text += " [INSTALLED]"
+					text += " | Already Launched"
 				}
 				return g.RadioButton(text, radioIdx == i).
 					OnChange(makeRadioOnChange(i))
@@ -498,7 +497,7 @@ func renderInstaller() g.Widget {
 				g.Style().
 					SetColor(g.StyleColorButton, Ternary(isOpenAsar, DiscordRed, DiscordGreen)).
 					To(
-						g.Button(Ternary(isOpenAsar, "Uninstall OpenAsar", Ternary(currentDiscord != nil, "Install OpenAsar", "(Un-)Install OpenAsar"))).
+						g.Button(Ternary(isOpenAsar, "Launch into OpenAsar", Ternary(currentDiscord != nil, "Launch into OpenAsar", "Land/Launch into OpenAsar"))).
 							OnClick(handleOpenAsar).
 							Size((w-40)/4, 50),
 						Tooltip("Manage OpenAsar"),
@@ -588,7 +587,7 @@ func loop() {
 					return g.Label("To customise this location, set the environment variable 'VENCORD_USER_DATA_DIR' and restart me").Wrapped(true)
 				}, nil},
 				g.Dummy(0, 10),
-				g.Label("Installer Version: "+InstallerTag+" ("+InstallerGitHash+")"+Ternary(IsInstallerOutdated, " - OUTDATED", "")),
+				g.Label("Installer Version: "+InstallerTag+" ("+InstallerGitHash+")"+Ternary(IsInstallerOutdated, " - VERY OUTDATED", "")),
 				g.Label("Local Ven(ti)cord Version: "+InstalledHash),
 				&CondWidget{
 					GithubError == nil,
